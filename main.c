@@ -6,8 +6,7 @@
 
 #include "lan9252_hbi.h"
 
-#define EPWM1_TIMER_TBPRD  65535U
-#define EPWM1_MAX_CMPB     100U
+#define EPWM1_TIMER_TBPRD  4999U // 10kHz up-down count = 100MHz / 2 / 10k - 1 = 4999
 
 uint32_t duty;
 
