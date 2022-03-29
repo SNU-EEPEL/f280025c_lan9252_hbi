@@ -8,8 +8,11 @@
 /**
  * Import the modules used in this configuration.
  */
-const epwm  = scripting.addModule("/driverlib/epwm.js", {}, false);
-const epwm1 = epwm.addInstance();
+const epwm       = scripting.addModule("/driverlib/epwm.js", {}, false);
+const epwm1      = epwm.addInstance();
+const inputxbar  = scripting.addModule("/driverlib/inputxbar.js", {}, false);
+const inputxbar1 = inputxbar.addInstance();
+const sync       = scripting.addModule("/driverlib/sync.js");
 
 /**
  * Write custom configuration values to the imported modules.
@@ -19,3 +22,7 @@ epwm1.useCase                = "CUSTOM";
 epwm1.useInterfacePins       = ["EPWM#_B"];
 epwm1.epwm.$assign           = "EPWM1";
 epwm1.epwm.epwm_bPin.$assign = "ball.2";
+
+inputxbar1.$name          = "myINPUTXBAR0";
+inputxbar1.inputsUsed     = ["inputxbar5Gpio"];
+inputxbar1.inputxbar5Gpio = "GPIO40";
