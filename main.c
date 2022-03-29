@@ -55,6 +55,12 @@ void main(void)
                                   EPWM_AQ_OUTPUT_LOW,
                                   EPWM_AQ_OUTPUT_ON_TIMEBASE_DOWN_CMPB);
 
+    // Set Phase shift
+    EPWM_enablePhaseShiftLoad(myEPWM0_BASE);
+    EPWM_setPhaseShift(myEPWM0_BASE, 0);
+    EPWM_setSyncInPulseSource(myEPWM0_BASE,
+                              EPWM_SYNC_IN_PULSE_SRC_INPUTXBAR_OUT5);
+
     SysCtl_enablePeripheral(SYSCTL_PERIPH_CLK_TBCLKSYNC);
 
     for(;;)
