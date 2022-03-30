@@ -10,6 +10,15 @@
 
 uint32_t duty;
 
+__interrupt void sync0InterruptHandler(void){
+    duty = lan9252_hbi_indirect_read16(0x1000);
+            EPWM_setCounterCompareValue(myEPWM0_BASE,
+                                        EPWM_COUNTER_COMPARE_B,
+                                        duty);
+
+    Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP1);
+}
+
 void main(void)
 {
     Device_init();
@@ -63,12 +72,18 @@ void main(void)
 
     SysCtl_enablePeripheral(SYSCTL_PERIPH_CLK_TBCLKSYNC);
 
+    // SYNC0 Interrupt enable
+    GPIO_setInterruptType(GPIO_INT_XINT1, GPIO_INT_TYPE_RISING_EDGE);
+    GPIO_setInterruptPin(sync0GPIO, GPIO_INT_XINT1);
+    GPIO_enableInterrupt(GPIO_INT_XINT1);
+
+    Interrupt_register(INT_XINT1, &sync0InterruptHandler);
+    Interrupt_enable(INT_XINT1);
+
+    // Enable interrupt
+    Interrupt_enableMaster();
+
     for(;;)
     {
-        duty = lan9252_hbi_indirect_read16(0x1000);
-        EPWM_setCounterCompareValue(myEPWM0_BASE,
-                                    EPWM_COUNTER_COMPARE_B,
-                                    duty);
-        SysCtl_delay(1000);
     }
 }

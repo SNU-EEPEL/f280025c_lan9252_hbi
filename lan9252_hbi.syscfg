@@ -10,6 +10,8 @@
  */
 const epwm       = scripting.addModule("/driverlib/epwm.js", {}, false);
 const epwm1      = epwm.addInstance();
+const gpio       = scripting.addModule("/driverlib/gpio.js", {}, false);
+const gpio1      = gpio.addInstance();
 const inputxbar  = scripting.addModule("/driverlib/inputxbar.js", {}, false);
 const inputxbar1 = inputxbar.addInstance();
 const sync       = scripting.addModule("/driverlib/sync.js");
@@ -22,6 +24,9 @@ epwm1.useCase                = "CUSTOM";
 epwm1.useInterfacePins       = ["EPWM#_B"];
 epwm1.epwm.$assign           = "EPWM1";
 epwm1.epwm.epwm_bPin.$assign = "ball.2";
+
+gpio1.$name           = "sync0GPIO";
+gpio1.gpioPin.$assign = "ball.64";
 
 inputxbar1.$name          = "myINPUTXBAR0";
 inputxbar1.inputsUsed     = ["inputxbar5Gpio"];
