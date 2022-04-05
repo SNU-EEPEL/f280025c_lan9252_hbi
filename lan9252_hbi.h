@@ -19,4 +19,7 @@ extern inline void lan9252_hbi_direct_write16(uint16_t address, uint16_t data);
 extern uint16_t lan9252_hbi_indirect_read16(uint16_t address);
 extern uint32_t lan9252_hbi_indirect_read32(uint16_t address);
 
+extern void lan9252_hbi_indirect_write16(uint16_t address, uint16_t data);
+extern void lan9252_hbi_indirect_write32(uint16_t address, uint32_t data);
+
 #endif /* LAN9252_HBI_H_ */

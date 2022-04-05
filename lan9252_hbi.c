@@ -182,3 +182,20 @@ uint32_t lan9252_hbi_indirect_read32(uint16_t address){ // Figure 12-10
 
     return ((uint32_t)rx[1] << 16) | (uint32_t)rx[0];
 }
+
+void lan9252_hbi_indirect_write32(uint16_t address, uint32_t data){ // Figure 12-11
+    uint16_t ecat_csr_cmd;
+
+    lan9252_hbi_direct_write16(ECAT_CSR_DATA, (uint16_t)data);
+    lan9252_hbi_direct_write16(ECAT_CSR_DATA + 2, (uint16_t)(data >> 16));
+    lan9252_hbi_direct_write16(ECAT_CSR_CMD, address);
+    lan9252_hbi_direct_write16(ECAT_CSR_CMD + 2, 0x8004);
+    do{
+        NS_DELAY;
+        ecat_csr_cmd = lan9252_hbi_direct_read16(ECAT_CSR_CMD + 2);
+    }while(ecat_csr_cmd & 0x8000);
+}
+
+void lan9252_hbi_indirect_write16(uint16_t address, uint16_t data){ // Figure 12-11
+    lan9252_hbi_indirect_write32(address, (uint32_t)data);
+}
