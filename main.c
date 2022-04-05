@@ -8,13 +8,19 @@
 
 #define EPWM1_TIMER_TBPRD  4999U // 10kHz up-down count = 100MHz / 2 / 10k - 1 = 4999
 
-uint32_t duty;
+uint16_t duty, tmp;
 
 __interrupt void sync0InterruptHandler(void){
-    duty = lan9252_hbi_indirect_read16(0x1000);
-            EPWM_setCounterCompareValue(myEPWM0_BASE,
-                                        EPWM_COUNTER_COMPARE_B,
-                                        duty);
+    duty = (uint16_t)lan9252_hbi_indirect_read16(0x1000);
+
+    // LAN9252 TABLE 5-2
+    // Before reading the same register or any other register affected by the write
+    // minimum 45ns is required
+    NS_DELAY_BTW_RW;
+
+    lan9252_hbi_indirect_write16(0x100C, tmp);
+
+    EPWM_setCounterCompareValue(myEPWM0_BASE,EPWM_COUNTER_COMPARE_B,duty);
 
     Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP1);
 }

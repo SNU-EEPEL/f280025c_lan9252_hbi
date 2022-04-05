@@ -10,6 +10,11 @@
 
 #include "device.h"
 
+// LAN9252 TABLE 5-2
+// Before reading the same register or any other register affected by the write
+// minimum 45ns is required
+#define NS_DELAY_BTW_RW    asm(" RPT #8 || NOP")
+
 // LAN9252 basic functions
 extern void lan9252_hbi_init();
 extern inline uint16_t lan9252_hbi_direct_read16(uint16_t address);

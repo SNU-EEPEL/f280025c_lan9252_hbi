@@ -162,11 +162,6 @@ inline void lan9252_hbi_direct_write16(uint16_t address, uint16_t data){ // only
 
 }
 
-uint16_t lan9252_hbi_indirect_read16(uint16_t address){ // Figure 12-10
-
-    return (uint16_t)lan9252_hbi_indirect_read32(address);
-}
-
 uint32_t lan9252_hbi_indirect_read32(uint16_t address){ // Figure 12-10
     uint16_t ecat_csr_cmd;
     uint16_t rx[2];
@@ -181,6 +176,10 @@ uint32_t lan9252_hbi_indirect_read32(uint16_t address){ // Figure 12-10
     rx[1] = lan9252_hbi_direct_read16(ECAT_CSR_DATA + 2);
 
     return ((uint32_t)rx[1] << 16) | (uint32_t)rx[0];
+}
+
+uint16_t lan9252_hbi_indirect_read16(uint16_t address){ // Figure 12-10
+    return (uint16_t)lan9252_hbi_indirect_read32(address);
 }
 
 void lan9252_hbi_indirect_write32(uint16_t address, uint32_t data){ // Figure 12-11
